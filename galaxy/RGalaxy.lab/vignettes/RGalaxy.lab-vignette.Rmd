@@ -68,11 +68,59 @@ in this page to create the Galaxy tool, and the man page will also
 be useful to anyone who wants to run your function in `R`.
 
 This command will open the man page (`multiplyTwoNumbers.Rd`) in
-`RStudio`'s editor:
+`RStudio`'s editor, so you can examine it:
 
 ```{r open_man_page}
-file.edit(system.file("manpages", "multiplyTwoNumbers.Rd", package="RGalaxy.lab"))
+manpage <- system.file("manpages", "multiplyTwoNumbers.Rd", package="RGalaxy.lab")
+file.edit(manpage)
 ```
+
+Some things to note about this man page:
+
+* The `name`, `alias`, `description`, `title`, `usage`, and
+  `arguments` sections are required. The `details` section
+  is not required but its use is encouraged (`RGalaxy` will
+  notify you if this section is missing).
+* While it's good to have an `examples` section, this section
+  is only useful to people running your function via `R`.
+  This section is not used by `RGalaxy`.
+
+## Installing Galaxy
+
+If you were working on your own machine, you'd need to install Galaxy
+at this point. You can refer to the `RGalaxy` vignette for information
+about this procedure. Galaxy is already installed on the virtual 
+machine you are accessing through your browser, so we'll skip the 
+installation step for now.
+
+We do however need to tell R where Galaxy is installed:
+
+```{r set_galaxy_home}
+galaxyHome <- "/extra/ubuntu/galaxy-dist"
+```
+
+```{r set_galaxy_home2, echo=FALSE, results="hide"}
+hostname <- system2("hostname", stdout=TRUE)
+if (grepl("^dhcp", hostname))
+    galaxyHome <- "/Users/dtenenba/dev/galaxy-dist"
+```
+
+
+## Telling Galaxy about the function
+
+Now we point Galaxy to the function we just wrote:
+
+```{r run_galaxy, tidy=FALSE}
+library(RGalaxy)
+galaxy("multiplyTwoNumbers",
+    manpage=manpage,
+    version=0.1,
+    galaxyConfig=
+      GalaxyConfig(galaxyHome, "mytool", "Test Section",
+        "testSectionId")
+    )
+```
+
 
 
 ```{r open_RGalaxy_vignette}
@@ -84,17 +132,7 @@ Now click on "User guides, package vignettes and other documentation.", then
 click on "HTML" (if you like, you can right click on this link and open it in
 a new window).
 
-Galaxy is installed in `/extra/ubuntu/galaxy-dist`. Let's tell R about this:
 
-```{r set_galaxy_home}
-galaxyHome <- "/extra/ubuntu/galaxy-dist"
-```
-
-```{r set_galaxy_home2, echo=FALSE, results="hide"}
-hostname <- system2("hostname", stdout=TRUE)
-if (grepl("^dhcp", hostname))
-    galaxyHome <- "/Users/dtenenba/dev/galaxy-dist"
-```
 
 
 ```{r getGalaxyUrl}
@@ -125,6 +163,7 @@ restartGalaxy <- function(galaxyHome)
     setwd(galaxyHome)
     processes <- system2(c("ps", "-ef"), stdout=TRUE)
     galaxyProcess <- processes[grepl("paster\\.py", processes)]
+    galaxyProcess <- sub("^ +", "", galaxyProcess)
     if (length(galaxyProcess) > 1)
         stop("More than one galaxy process running. Aborting.")
     if (length(galaxyProcess)==0)

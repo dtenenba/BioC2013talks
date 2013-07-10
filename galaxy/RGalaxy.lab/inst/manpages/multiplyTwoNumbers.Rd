@@ -1,7 +1,7 @@
 \name{multiplyTwoNumbers}
 
 \alias{multiplyTwoNumbers}
-\title{Add two numbers}
+\title{Multiply two numbers}
 
 \description{
     An example function that can be made into a Galaxy tool.
