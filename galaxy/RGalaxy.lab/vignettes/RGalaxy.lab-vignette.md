@@ -22,17 +22,15 @@ two numbers. It's obviously too trivial to be of use to anyone,
 but it illustrates some important principles.
 
 
-```{r multiplyTwoNumbers}
-multiplyTwoNumbers <- 
-    function(
-        number1=GalaxyNumericParam(required=TRUE),
-        number2=GalaxyNumericParam(required=TRUE),
-        product=GalaxyOutput("product", "txt"))
-{
-    cat(number1 * number2, file=product)
-}
 
+```r
+multiplyTwoNumbers <- function(number1 = GalaxyNumericParam(required = TRUE), 
+    number2 = GalaxyNumericParam(required = TRUE), product = GalaxyOutput("product", 
+        "txt")) {
+    cat(number1 * number2, file = product)
+}
 ```
+
 
 There are a few things to notice about this function:
 
@@ -54,11 +52,17 @@ There are a few things to notice about this function:
 * This function can be run from within R, passing it ordinary
 `numeric` values:
 
-```{r run_multiplyTwoNumbers}
+
+```r
 t <- tempfile()
 multiplyTwoNumbers(2, 7, t)
-readLines(t, warn=FALSE)
+readLines(t, warn = FALSE)
 ```
+
+```
+## [1] "14"
+```
+
 
 ## Documenting the Example
 
@@ -70,15 +74,19 @@ be useful to anyone who wants to run your function in `R`.
 This command will open the man page (`multiplyTwoNumbers.Rd`) in
 `RStudio`'s editor:
 
-```{r open_man_page}
-file.edit(system.file("manpages", "multiplyTwoNumbers.Rd", package="RGalaxy.lab"))
+
+```r
+file.edit(system.file("manpages", "multiplyTwoNumbers.Rd", package = "RGalaxy.lab"))
 ```
 
 
-```{r open_RGalaxy_vignette}
-help(package="RGalaxy", help_type="html")
-file.edit(system.file("doc", "RGalaxy-vignette.R", package="RGalaxy"))
+
+
+```r
+help(package = "RGalaxy", help_type = "html")
+file.edit(system.file("doc", "RGalaxy-vignette.R", package = "RGalaxy"))
 ```
+
 
 Now click on "User guides, package vignettes and other documentation.", then
 click on "HTML" (if you like, you can right click on this link and open it in
@@ -86,26 +94,23 @@ a new window).
 
 Galaxy is installed in `/extra/ubuntu/galaxy-dist`. Let's tell R about this:
 
-```{r set_galaxy_home}
+
+```r
 galaxyHome <- "/extra/ubuntu/galaxy-dist"
 ```
 
-```{r set_galaxy_home2, echo=FALSE, results="hide"}
-hostname <- system2("hostname", stdout=TRUE)
-if (grepl("^dhcp", hostname))
-    galaxyHome <- "/Users/dtenenba/dev/galaxy-dist"
-```
 
 
-```{r getGalaxyUrl}
-getGalaxyUrl <- function(silent=FALSE)
-{
+
+
+
+
+```r
+getGalaxyUrl <- function(silent = FALSE) {
     library(httr)
-    public.dns <-
-        content(GET("http://169.254.169.254/latest/meta-data/public-hostname"))
+    public.dns <- content(GET("http://169.254.169.254/latest/meta-data/public-hostname"))
     url <- paste0("http://", public.dns, ":8080")
-    if (!silent)
-    {
+    if (!silent) {
         cat("You can launch Galaxy with:\n")
         cat(paste0("browseURL(getGalaxyUrl())\n"))
         cat("Be sure popup-blockers are disabled.\n")
@@ -114,21 +119,21 @@ getGalaxyUrl <- function(silent=FALSE)
 }
 ```
 
+
 Restart Galaxy:
 
-```{r restart_galaxy}
 
-restartGalaxy <- function(galaxyHome)
-{
+```r
+
+restartGalaxy <- function(galaxyHome) {
     oldwd <- getwd()
     on.exit(setwd(oldwd))
     setwd(galaxyHome)
-    processes <- system2(c("ps", "-ef"), stdout=TRUE)
+    processes <- system2(c("ps", "-ef"), stdout = TRUE)
     galaxyProcess <- processes[grepl("paster\\.py", processes)]
-    if (length(galaxyProcess) > 1)
+    if (length(galaxyProcess) > 1) 
         stop("More than one galaxy process running. Aborting.")
-    if (length(galaxyProcess)==0)
-    {
+    if (length(galaxyProcess) == 0) {
         cat("Note: Galaxy is not running.\n")
     } else {
         pid <- strsplit(galaxyProcess, " +")[[1]][2]
@@ -138,4 +143,5 @@ restartGalaxy <- function(galaxyHome)
     cat("Galaxy will be restarted in a moment.\n")
 }
 ```
+
 
