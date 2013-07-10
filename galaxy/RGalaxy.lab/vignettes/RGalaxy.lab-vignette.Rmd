@@ -122,39 +122,7 @@ galaxy("multiplyTwoNumbers",
 ```
 
 
-
-```{r open_RGalaxy_vignette}
-help(package="RGalaxy", help_type="html")
-file.edit(system.file("doc", "RGalaxy-vignette.R", package="RGalaxy"))
-```
-
-Now click on "User guides, package vignettes and other documentation.", then
-click on "HTML" (if you like, you can right click on this link and open it in
-a new window).
-
-
-
-
-```{r getGalaxyUrl}
-getGalaxyUrl <- function(silent=FALSE)
-{
-    library(httr)
-    public.dns <-
-        content(GET("http://169.254.169.254/latest/meta-data/public-hostname"))
-    url <- paste0("http://", public.dns, ":8080")
-    if (!silent)
-    {
-        cat("You can launch Galaxy with:\n")
-        cat(paste0("browseURL(getGalaxyUrl())\n"))
-        cat("Be sure popup-blockers are disabled.\n")
-    }
-    url
-}
-```
-
-Restart Galaxy:
-
-```{r restart_galaxy}
+```{r restart_galaxy_function, echo=FALSE}
 
 restartGalaxy <- function(galaxyHome)
 {
@@ -177,4 +145,75 @@ restartGalaxy <- function(galaxyHome)
     cat("Galaxy will be restarted in a moment.\n")
 }
 ```
+
+We've told Galaxy about our function by modifying its configuration
+files. Each time we do this, we need to restart Galaxy. 
+The `RGalaxy` vignette describes how to do this, but we've 
+defined a function that will do it on this virtual machine. 
+Let's run the function:
+
+```{r call_restartGalaxy}
+restartGalaxy(galaxyHome)
+```
+
+Now we can run Galaxy. The following command will open a new window.
+If nothing happens, you may need to deactivate the popup blocker in
+your browser.
+
+
+```{r getGalaxyUrl, echo=FALSE}
+getGalaxyUrl <- function(silent=FALSE)
+{
+    try(hostnamed <- suppressWarnings(system2(c("hostname", "-d"),
+        stdout=TRUE, stderr=NULL)),
+        silent=TRUE)
+    if (exists("hostnamed") && length(hostnamed) &&
+        grepl("ec2\\.internal", hostnamed))
+    {
+      library(httr)
+      public.dns <-
+          content(GET("http://169.254.169.254/latest/meta-data/public-hostname"))
+      url <- paste0("http://", public.dns, ":8080")
+    } else {
+      port <- "8080"
+      hostname <- system2("hostname", stdout=TRUE)
+      if (grepl("^dhcp", hostname))
+        port <- "8081"
+      url <- sprintf("http://localhost:%s", port)
+    }
+    if (!silent)
+    {
+        cat("You can launch Galaxy with:\n")
+        cat(paste0("browseURL(getGalaxyUrl())\n"))
+        cat("Be sure popup-blockers are disabled.\n")
+    }
+    url
+}
+```
+
+
+```{r run_getGalaxyUrl}
+browseURL(getGalaxyUrl())
+```
+
+You might need to reload the page in the window that just opened.
+
+
+<hr>
+
+
+```{r open_RGalaxy_vignette}
+help(package="RGalaxy", help_type="html")
+file.edit(system.file("doc", "RGalaxy-vignette.R", package="RGalaxy"))
+```
+
+Now click on "User guides, package vignettes and other documentation.", then
+click on "HTML" (if you like, you can right click on this link and open it in
+a new window).
+
+
+
+
+Restart Galaxy:
+
 
