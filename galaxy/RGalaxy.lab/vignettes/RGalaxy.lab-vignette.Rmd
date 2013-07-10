@@ -1,0 +1,61 @@
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{RGalaxy - BioC2013 Lab}
+-->
+
+# RGalaxy lab
+## July 19, 2013
+
+```{r open_RGalaxy_vignette}
+help(package="RGalaxy")
+```
+
+Now click on "User guides, package vignettes and other documentation.", then
+click on "HTML" (if you like, you can right click on this link and open it in
+a new window).
+
+Galaxy is installed in `/extra/ubuntu/galaxy-dist`. Let's tell R about this:
+
+```{r set_galaxy_home}
+galaxyHome <- "/extra/ubuntu/galaxy-dist"
+```
+
+```{r getGalaxyUrl}
+getGalaxyUrl <- function(silent=FALSE)
+{
+    library(httr)
+    public.dns <-
+        content(GET("http://169.254.169.254/latest/meta-data/public-hostname"))
+    url < paste0("http://", public.dns, ":8080")
+    if (!silent)
+    {
+        cat("You can launch Galaxy with:\n")
+        cat(paste0("browseURL(", url, ")\n"))
+        cat("Be sure popup-blockers are disabled.\n")
+    }
+    url
+}
+```
+
+Restart Galaxy:
+
+```{r restart_galaxy}
+
+restartGalaxy <- function()
+{
+    oldwd <- getwd()
+    on.exit(setwd(oldwd))
+    setwd(galaxyHome)
+    processes <- system2(c("ps", "-ef"), stdout=TRUE)
+    galaxyProcess <- processes[grepl("paster\\.py", processes)]
+    if (length(galaxyProcess)==0)
+        cat("Note: Galaxy is not running.\n")
+    if (length(galaxyProcess) > 1)
+        stop("More than one galaxy process running. Aborting.")
+    pid <- strsplit(galaxyProcess, " +")[[1]][2]
+    system2("kill", sprintf("-9 %s", pid))
+    system2("nohup", "./run.sh > galaxy.log 2>&1 &")
+    cat("Galaxy will be restarted in a moment.\n")
+}
+```
+

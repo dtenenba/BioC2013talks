@@ -1,0 +1,10 @@
+Package: RGalaxy.lab
+Title: RGalaxy lab for BioC2013
+Description: 
+Version: 0.1
+Author: Dan Tenenbaum <dtenenba@fhcrc.org>
+Maintainer: Dan Tenenbaum <dtenenba@fhcrc.org>
+Depends: R (>= 3.0.1), httr
+License: Artistic-2.0
+VignetteBuilder: knitr
+Suggests: knitr, RGalaxy
