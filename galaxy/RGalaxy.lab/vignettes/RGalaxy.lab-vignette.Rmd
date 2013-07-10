@@ -30,7 +30,7 @@ getGalaxyUrl <- function(silent=FALSE)
     if (!silent)
     {
         cat("You can launch Galaxy with:\n")
-        cat(paste0("browseURL(", url, ")\n"))
+        cat(paste0("browseURL(\"", url, "\")\n"))
         cat("Be sure popup-blockers are disabled.\n")
     }
     url
@@ -41,19 +41,22 @@ Restart Galaxy:
 
 ```{r restart_galaxy}
 
-restartGalaxy <- function()
+restartGalaxy <- function(galaxyHome)
 {
     oldwd <- getwd()
     on.exit(setwd(oldwd))
     setwd(galaxyHome)
     processes <- system2(c("ps", "-ef"), stdout=TRUE)
     galaxyProcess <- processes[grepl("paster\\.py", processes)]
-    if (length(galaxyProcess)==0)
-        cat("Note: Galaxy is not running.\n")
     if (length(galaxyProcess) > 1)
         stop("More than one galaxy process running. Aborting.")
-    pid <- strsplit(galaxyProcess, " +")[[1]][2]
-    system2("kill", sprintf("-9 %s", pid))
+    if (length(galaxyProcess)==0)
+    {
+        cat("Note: Galaxy is not running.\n")
+    } else {
+        pid <- strsplit(galaxyProcess, " +")[[1]][2]
+        system2("kill", sprintf("-9 %s", pid))
+    }
     system2("nohup", "./run.sh > galaxy.log 2>&1 &")
     cat("Galaxy will be restarted in a moment.\n")
 }
