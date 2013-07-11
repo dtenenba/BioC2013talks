@@ -110,6 +110,11 @@ if (grepl("^dhcp", hostname))
 
 Now we point Galaxy to the function we just wrote:
 
+```{r library_RGalaxy_real, echo=FALSE, results="hide"}
+suppressPackageStartupMessages(library(RGalaxy))
+```
+
+
 ```{r run_galaxy, tidy=FALSE}
 library(RGalaxy)
 galaxy("multiplyTwoNumbers",
