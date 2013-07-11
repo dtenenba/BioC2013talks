@@ -198,22 +198,60 @@ browseURL(getGalaxyUrl())
 
 You might need to reload the page in the window that just opened.
 
+In the Galaxy window, at upper left, you should see a link called
+"Test Section". Click on it and you'll see "Multiply Two Numbers":
 
-<hr>
+<img src="lefthand.jpg"/>
 
+Now click on "Multiply Two Numbers". You can see that all of the information
+in the middle part of the window comes from either our function, its manpage,
+or the invocation of the `galaxy()` function.
 
-```{r open_RGalaxy_vignette}
-help(package="RGalaxy", help_type="html")
-file.edit(system.file("doc", "RGalaxy-vignette.R", package="RGalaxy"))
+<img src="multiply.jpg"/>
+
+Enter two numbers and click "Execute". When the tool is finished 
+running, the "product.txt" link at right will turn green. If you click
+it, you'll see the result of the multiplication.
+
+This is a cumbersome way to multiply two numbers. But it's a useful example.
+
+## Functional Testing
+
+We just ran Galaxy and made sure our tool worked.
+It would be nice to automate this procedure so we
+can know that for inputs `x` and `y`, our tool
+will always produce output `d`. 
+
+With a couple of small additions, we can accomplish this.
+Our function will have a self-contained test.
+
+Also, when submitting tools to the public Galaxy instance,
+functional tests like this are required.
+
+Here is our `addTwoNumbers` function again, this time with
+a functional test:
+
+```{r multiplyTwoNumbersWithTest, tidy=FALSE}
+multiplyTwoNumbersWithTest <-
+function(
+        number1=GalaxyNumericParam(required=TRUE, testValues=5L),
+        number2=GalaxyNumericParam(required=TRUE, testValues=5L),
+        product=GalaxyOutput("sum", "txt"))
+{
+    cat(number1 * number2, file=product)
+}
 ```
 
-Now click on "User guides, package vignettes and other documentation.", then
-click on "HTML" (if you like, you can right click on this link and open it in
-a new window).
+The only visible difference is that we've added a `testValues`
+argument to each input parameter. 
+Another, subtler difference is that we have added
+a file  called `functionalTests/multiplyTwoNumbersWithTest/product`,
+which contains the expected output of the function.
 
+Does the function pass its functional test?
 
-
-
-Restart Galaxy:
-
+```{r runFunctionalTest}
+runFunctionalTest(multiplyTwoNumbersWithTest,
+  system.file("functionalTests", package="RGalaxy.lab"))
+```
 
