@@ -70,10 +70,19 @@ be useful to anyone who wants to run your function in `R`.
 This command will open the man page (`multiplyTwoNumbers.Rd`) in
 `RStudio`'s editor, so you can examine it:
 
-```{r open_man_page}
+```{r open_man_page, eval=FALSE}
 manpage <- system.file("manpages", "multiplyTwoNumbers.Rd", package="RGalaxy.lab")
 file.edit(manpage)
 ```
+
+```{r open_man_page_real, echo=FALSE}
+if (identical(.Platform$GUI, "RStudio"))
+{
+    manpage <- system.file("manpages", "multiplyTwoNumbers.Rd", package="RGalaxy.lab")
+    file.edit(manpage)
+}
+```
+
 
 Some things to note about this man page:
 
@@ -260,3 +269,60 @@ runFunctionalTest(multiplyTwoNumbersWithTest,
   system.file("functionalTests", package="RGalaxy.lab"))
 ```
 
+## A more practical example, using Bioconductor.
+
+Suppose you have some Affymetrix probe IDs and you want to look up the
+PFAM and SYMBOL names for them. It's quite easy to write a function
+to expose this in Galaxy:
+
+```{r probeLookup, tidy=FALSE}
+probeLookup <- function(
+    probe_ids=GalaxyCharacterParam(
+        required=TRUE,
+        testValues="1002_f_at 1003_s_at"),
+    outputfile=GalaxyOutput("probeLookup", "csv"))
+{
+    suppressPackageStartupMessages(library(hgu95av2.db))
+    ids <- strsplit(probe_ids, " ")[[1]]
+    results <- select(hgu95av2.db, keys=ids, columns=c("SYMBOL","PFAM"),
+        keytype="PROBEID")
+    write.csv(results, file=outputfile)
+}
+```
+
+Behind the scenes, we've also written a man page for the
+function, and written a test fixture. 
+
+Let's run it and make sure it works:
+```{r test_probeLookup}
+runFunctionalTest(probeLookup, system.file("functionalTests",
+    package="RGalaxy.lab"))
+```
+
+### Exercise 1
+
+Tell Galaxy about this function and run it in Galaxy.
+
+### Exercise 2
+
+Write your own workflow (it could be just a simple function), preferably
+using Bioconductor, add functional tests and fixtures, and expose it 
+in Galaxy.
+
+## Further Information
+
+The `RGalaxy` vignette contains much more information about using
+`RGalaxy`. To open the vignette in command-line R, run this command:
+
+```{r open_RGalaxy_vignette_1, eval=FALSE}
+browseVignettes("RGalaxy")
+```
+
+In RStudio, run this command:
+
+```{r open_RGalaxy_vignette_2, eval=FALSE}
+help(package="RGalaxy")
+```
+
+Then click on 
+"User guides, package vignettes and other documentation", and then click on ...
