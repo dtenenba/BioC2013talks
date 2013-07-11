@@ -70,15 +70,17 @@ be useful to anyone who wants to run your function in `R`.
 This command will open the man page (`multiplyTwoNumbers.Rd`) in
 `RStudio`'s editor, so you can examine it:
 
-```{r open_man_page, eval=FALSE}
+```{r manpage}
 manpage <- system.file("manpages", "multiplyTwoNumbers.Rd", package="RGalaxy.lab")
+```
+
+```{r open_man_page, eval=FALSE}
 file.edit(manpage)
 ```
 
 ```{r open_man_page_real, echo=FALSE}
 if (identical(.Platform$GUI, "RStudio"))
 {
-    manpage <- system.file("manpages", "multiplyTwoNumbers.Rd", package="RGalaxy.lab")
     file.edit(manpage)
 }
 ```
@@ -218,7 +220,7 @@ In the Galaxy window, at upper left, you should see a link called
 <img src="lefthand.jpg"/>
 
 Now click on "Multiply Two Numbers". You can see that all of the information
-in the middle part of the window comes from either our function, its manpage,
+in the middle part of the window comes from either our function, its man page,
 or the invocation of the `galaxy()` function.
 
 <img src="multiply.jpg"/>
