@@ -1,0 +1,21 @@
+Demo?
+
+Might be easier to start with an existing demo....
+
+
+https://hedgehog.fhcrc.org/bioconductor/trunk/madman/RpacksTesting/test2/
+
+
+https://github.com/dtenenbaum/test2
+(use safari dtenenbaum/f)
+
+    - show commit hooks and collaborator settings
+
+local working copies:
+    under ~/gitsvn/BioC2013_demo
+
+
+
+
+http://gitsvn.bioconductor.org/
+

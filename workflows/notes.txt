@@ -1,0 +1,23 @@
+- Start by showing 
+http://www.bioconductor.org/help/workflows/
+
+- Then show 'source code' at:
+
+https://hedgehog.fhcrc.org/bioconductor/trunk/madman/workflows/
+
+and point out README at
+
+https://hedgehog.fhcrc.org/bioconductor/trunk/madman/workflows/README.md
+
+Now show build system at
+https://docbuilder.bioconductor.org/app
+
+Show Jenkins at
+http://docbuilder.bioconductor.org:8080/
+
+Show build reports for a project, e.g.
+http://docbuilder.bioconductor.org:8080/job/annotation/
+http://docbuilder.bioconductor.org:8080/job/annotation/75/label=master/console
+
+
+
