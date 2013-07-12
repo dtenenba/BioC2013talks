@@ -333,6 +333,8 @@ in Galaxy.
 
 ## Further Information
 
+(Demo of RGalaxy tools)
+
 The `RGalaxy` vignette contains much more information about using
 `RGalaxy`. To open the vignette in command-line R, run this command:
 
