@@ -1,0 +1,7 @@
+curl -O -u readonly:readonly \
+    https://hedgehog.fhcrc.org/bioconductor/trunk/madman/Rpacks/AnnotationHubServer/inst/scripts/install.sh
+
+sudo bash install.sh
+
+# wait a while...
+
