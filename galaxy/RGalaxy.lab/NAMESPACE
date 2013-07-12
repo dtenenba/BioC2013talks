@@ -1,0 +1,7 @@
+export(galaxyHome)
+export(restartGalaxy)
+export(getGalaxyUrl)
+#export(multiplyTwoNumbersWithTest)
+#export(probeLookup)
+#export(multiplyTwoNumbers)
+export(manpage)

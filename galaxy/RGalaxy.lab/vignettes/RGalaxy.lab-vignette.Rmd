@@ -12,8 +12,8 @@ is an open, web-based platform for data-intensive biomedical research.
 It provides an easy-to-use web interface and can expose bioinformatics
 workflows written in any programming language.
 
-The `RGalaxy` package allows you to take existing `R` functions and
-expose them in Galaxy, so that anyone with a web browser can run
+The `RGalaxy` package allows you to take existing `R` code and
+expose it in Galaxy, so that anyone with a web browser can run
 your function without needing any knowledge of `R`.
 
 Let's start with a very simple example, based closely on one
@@ -23,6 +23,7 @@ but it illustrates some important principles.
 
 
 ```{r multiplyTwoNumbers}
+library(RGalaxy.lab)
 multiplyTwoNumbers <- 
     function(
         number1=GalaxyNumericParam(required=TRUE),
@@ -209,6 +210,7 @@ getGalaxyUrl <- function(silent=FALSE)
 
 
 ```{r run_getGalaxyUrl}
+Sys.sleep(4)
 browseURL(getGalaxyUrl())
 ```
 
@@ -305,11 +307,29 @@ runFunctionalTest(probeLookup, system.file("functionalTests",
 
 Tell Galaxy about this function and run it in Galaxy.
 
+
+```{r exercise_1_answer, echo=FALSE, eval=FALSE, tidy=FALSE}
+ galaxy("probeLookup",
+    manpage=system.file("manpages", "probeLookup.Rd", package="RGalaxy.lab"),
+    version=0.1,
+    galaxyConfig=
+      GalaxyConfig(galaxyHome, "mytool", "Test Section",
+        "testSectionId")
+    )
+ restartGalaxy(galaxyHome)
+ Sys.sleep(4)
+ browseURL(getGalaxyUrl())
+```
+
 ### Exercise 2
 
 Write your own workflow (it could be just a simple function), preferably
 using Bioconductor, add functional tests and fixtures, and expose it 
 in Galaxy.
+
+```{r exercise_2_answer, echo=FALSE, eval=FALSE}
+# It's an open-ended question.
+```
 
 ## Further Information
 
@@ -327,4 +347,5 @@ help(package="RGalaxy")
 ```
 
 Then click on 
-"User guides, package vignettes and other documentation", and then click on ...
+"User guides, package vignettes and other documentation", and then click on
+"RGalaxy::RGalaxy-vignette".

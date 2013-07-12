@@ -20,7 +20,7 @@ multiplyTwoNumbers(number1=GalaxyNumericParam(required=TRUE),
     The first number to multiply.
   }
   \item{number2}{
-    The second number to mutiply.
+    The second number to multiply.
   }
   \item{sum}{
     Where the result of the multiplication should be written.
