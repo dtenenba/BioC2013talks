@@ -19,3 +19,6 @@ local working copies:
 
 http://gitsvn.bioconductor.org/
 
+vaporware, for all intents and purposes
+
+show without showing
