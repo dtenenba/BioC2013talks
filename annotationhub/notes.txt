@@ -5,3 +5,16 @@ sudo bash install.sh
 
 # wait a while...
 
+
+
+#.fakeUrl <- "http://fakedatasource.org/"
+
+ahroot <- "~/ahroot3"
+srcpath <- system.file("gtf/", package="AnnotationHubServer.lab")
+
+
+for (file in dir(srcpath))
+    file.copy(file.path(srcpath, file), ahroot, overwrite=TRUE, recursive=TRUE)
+
+md <- updateAllResources(ahroot, c("2.12", "2.13"), "FakeGtfImportPreparer", list(), insert=FALSE)
+
