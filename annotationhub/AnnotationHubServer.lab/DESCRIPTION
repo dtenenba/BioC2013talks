@@ -1,0 +1,9 @@
+Package: AnnotationHubServer.lab
+Title: AnnotationHubServer lab
+Description: Set up your own AnnotationHub server
+Version: 0.1
+Author: Dan Tenenbaum <dtenenba@fhcrc.org>
+Maintainer: Dan Tenenbaum <dtenenba@fhcrc.org>
+Depends: R (>= 3.0.1), AnnotationHubData, AnnotationHubServer, rtracklayer
+License: Artistic-2.0
+LazyData: true
