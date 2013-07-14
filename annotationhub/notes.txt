@@ -19,3 +19,6 @@ for (file in dir(srcpath))
 
 md <- updateAllResources(ahroot, c("2.12", "2.13"), "FakeGtfImportPreparer", list(), insert=FALSE)
 
+#biocLite("devtools")
+library(devtools)
+install_github("BioC2013talks", "dtenenba", subdir="annotationhub/AnnotationHubServer.lab", args="--no-test-load")

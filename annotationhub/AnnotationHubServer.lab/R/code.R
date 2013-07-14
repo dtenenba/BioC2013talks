@@ -103,7 +103,7 @@ setMethod(newResources, "FakeGtfImportPreparer",
 
     #sourceUrls <- .ensemblGtfSourceUrls(.ensemblBaseUrl) # 122,  6 March, 2013
 
-    path <- system.file('gtf', package="AnnotationHubServer.lab")
+    path <- system.file('datafiles', package="AnnotationHubServer.lab")
     sourceUrls <- dir(path,
         pattern="\\.gtf$", recursive=TRUE)
 
@@ -115,5 +115,5 @@ setMethod(newResources, "FakeGtfImportPreparer",
     #sourceUrls <- sourceUrls[!sourceUrls %in% knownUrls]
 
     ## AnnotationHubMetadata
-    .fakeGtfMetadata(.ensemblBaseUrl, sourceUrls)
+    .fakeGtfMetadata(.fakeUrl, sourceUrls)
 })
