@@ -1,1 +1,2 @@
 export(fakeGTFtoGRanges)
+export(populateTestData)

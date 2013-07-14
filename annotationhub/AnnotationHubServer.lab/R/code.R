@@ -117,3 +117,17 @@ setMethod(newResources, "FakeGtfImportPreparer",
     ## AnnotationHubMetadata
     .fakeGtfMetadata(.fakeUrl, sourceUrls)
 })
+
+populateTestData <- function()
+{
+    ahroot <- "/var/FastRWeb/web"
+    srcpath <- system.file("datafiles", package="AnnotationHubServer.lab")
+
+
+    for (file in dir(srcpath))
+        file.copy(file.path(srcpath, file), ahroot, overwrite=TRUE, recursive=TRUE)
+
+    md <- updateAllResources(ahroot, c("2.12", "2.13"),
+        "FakeGtfImportPreparer", list(), insert=TRUE)
+    invisible(NULL)
+}
