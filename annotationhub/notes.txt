@@ -9,8 +9,9 @@ sudo bash install.sh
 
 #.fakeUrl <- "http://fakedatasource.org/"
 
-ahroot <- "~/ahroot3"
-srcpath <- system.file("gtf/", package="AnnotationHubServer.lab")
+ahroot <- "~/ahroot3" # /mnt/extdata/AnnotationHubServer
+ahroot <- "/var/FastRWeb/web"
+srcpath <- system.file("datafiles", package="AnnotationHubServer.lab")
 
 
 for (file in dir(srcpath))
